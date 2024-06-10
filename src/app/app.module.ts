@@ -7,17 +7,21 @@ import { CommonModule } from '@angular/common';
 import { ProductsComponent } from './components/products/products.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http'; 
+import { LoginComponent } from './login/login.component';
+import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
 
 @NgModule({
   declarations: [
     //AppComponent,
     ProductsComponent,
+    //LoginComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule // Importa FormsModule aquí
     
   ],
   providers: [provideHttpClient(withFetch())],

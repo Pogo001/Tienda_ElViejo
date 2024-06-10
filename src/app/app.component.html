@@ -5,11 +5,15 @@
       <li><a href="#products">Ver Productos</a></li>
       <li><a href="#blog">Ir al Blog</a></li>
       <li><a href="#about">Sobre Nosotros</a></li>
+      <li><a href="#myv">Misión y Visión</a></li>
+      <li><a (click)="openLoginPopup()">Iniciar Sesión</a></li>
     </ul>
   </nav>
 </header>
 
 <main>
+
+  
   <section id="products">
     <h2>Nuestros Productos</h2>
     <div *ngFor="let producto of productos">
@@ -29,13 +33,13 @@
           <h3>{{ productoSeleccionado.nombre }}</h3>
           <p>{{ productoSeleccionado.descripcion }}</p>
           <p>Precio: {{ productoSeleccionado.precio | currency }}</p>
+          <img [src]="productoSeleccionado.imagen" alt="{{ productoSeleccionado.nombre }}" style="max-width: 100%; height: auto;"><br>
           <label>
             Cantidad:
             <input type="number" [(ngModel)]="cantidad" min="1">
           </label>
           <a href="#carrito"> <button (click)="agregarAlCarrito(productoSeleccionado)">Agregar al carrito</button></a>
           <button (click)="cerrarDetalles()">Cerrar</button>
-          
         </div>
       </div>
     </div> 
@@ -43,14 +47,24 @@
  
   <section id="blog">
     <h2>Nuestro Blog</h2>
-    <h3>Se viene la Copa America y la EuroCopa</h3>
+  
     <div class="blog-post" id="post1">
-      <p *ngIf="!mostrarMas">{{ textoParcial }}</p>
-      <p *ngIf="mostrarMas">{{ textoCompleto }}</p>
-      <button (click)="mostrarContenidoAdicional()" *ngIf="!mostrarMas">Leer más</button>
-      <button (click)="ocultarContenidoAdicional()" *ngIf="mostrarMas">Ocultar</button>
+      <h3>Se viene la Copa America y la EuroCopa</h3>
+      <p *ngIf="!mostrarMas.post1">{{ textoParcial }}</p>
+      <p *ngIf="mostrarMas.post1">{{ textoCompleto }}</p>
+      <button (click)="mostrarContenidoAdicional('post1')" *ngIf="!mostrarMas.post1">Leer más</button>
+      <button (click)="ocultarContenidoAdicional('post1')" *ngIf="mostrarMas.post1">Ocultar</button>
     </div>
-    <!-- Agrega más entradas de blog según sea necesario -->
+  
+    <br>
+  
+    <div class="blog-post" id="post2">
+      <h3>Las finales de la NBA estan a fuego!!</h3>
+      <p *ngIf="!mostrarMas.post2">{{ textoParcial1 }}</p>
+      <p *ngIf="mostrarMas.post2">{{ textoCompleto1 }}</p>
+      <button (click)="mostrarContenidoAdicional('post2')" *ngIf="!mostrarMas.post2">Leer más</button>
+      <button (click)="ocultarContenidoAdicional('post2')" *ngIf="mostrarMas.post2">Ocultar</button>
+    </div>
   </section>
 
   <section id="carrito" *ngIf="carrito.length > 0">
@@ -69,11 +83,20 @@
       <p>El carrito está vacío.</p>
     </div>
   </section>
-  
-  
 
+  <section>
+    <h2>Misión y Visión</h2>
+    <div id="myv">
+      <h3>Misión</h3>
+      <p>{{ missionVisionService.mision }}</p>
+      <h3>Visión</h3>
+      <p>{{ missionVisionService.vision }}</p>
+    </div>
+  </section>
+  
+ 
 
-  <section id="blog">
+  <section id="about">
     <div class="container">
       <div class="card-group mt-4">
         <h2>Sobre Nosotros</h2>
