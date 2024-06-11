@@ -16,4 +16,10 @@ export class SharedService {
   logoutAsAdmin() {
     this.isAdminLoggedIn = false;
   }
+  
+}
+export interface Producto {
+  nombre: string;
+  descripcion: string;
+  precio: number;
 }

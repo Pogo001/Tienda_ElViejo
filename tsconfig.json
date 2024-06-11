@@ -31,5 +31,8 @@
   },
   "scripts": {
   "start:server": "node server/server.js"
-}
+},
+"include": ["./**/*.ts"],
+"exclude": ["node_modules"]
+
 }

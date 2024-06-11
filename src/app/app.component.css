@@ -148,3 +148,97 @@ section {
   max-width: 100%;
   height: auto;
 }
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  bottom: 0;
+  width: 100%;
+}
+h2
+{
+  text-align: center;
+}
+
+h3
+{
+  text-align: center;
+}
+
+p
+{
+  text-align: center;
+}
+
+.card-title {
+  text-align: center;
+}
+
+.card-text {
+  text-align: center;
+}
+
+div
+{
+  text-align: center;
+}
+
+
+.slider-frame
+{
+  width: 1200px;
+  height: auto;
+  margin: 50px auto 0;
+  overflow: hidden;
+
+  animation: slide 16s infinite alternate ease-in-out;
+}
+
+.slider-frame ul
+{
+  display: flex;
+  padding: 0;
+  width: 400%;  /*Cambiar segun el total de imagenes por ejemplo 6 imagenes 600 y asi */
+}
+
+.slider-frame li
+{
+  list-style: none;
+  width: 100%;
+}
+
+.slider-frame img
+{
+  width: 100%;
+}
+
+@keyframes slide
+{
+  0% {margin-left: 0%;}
+  20% {margin-left: 0%;}
+
+  25% {margin-left: -100%;}
+  45% {margin-left: -100%;}
+
+  50% {margin-left: -200%;}
+  70% {margin-left: -200%;}
+
+  75% {margin-left: -300%;}
+  95% {margin-left: -300%;}
+
+}
+.container {
+    margin-right: auto !important;;
+    margin-left: auto !important;;
+    max-width: 80% !important;;
+    text-align: center;
+  }
+
+/* Estilos para el header */
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
