@@ -18,8 +18,3 @@ export class SharedService {
   }
   
 }
-export interface Producto {
-  nombre: string;
-  descripcion: string;
-  precio: number;
-}

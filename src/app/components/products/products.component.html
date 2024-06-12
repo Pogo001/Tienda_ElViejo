@@ -1,7 +1,0 @@
-<div *ngFor="let producto of productos">
-  <div (click)="mostrarDetalles(producto)">
-    <img [src]="'assets/' + producto.imagen" alt="{{ producto.nombre }}">
-    <h3>{{ producto.nombre }}</h3>
-    <p>{{ producto.descripcion }}</p>
-  </div>
-</div>

@@ -9,10 +9,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from './shared.service';
 import { MissionVisionService } from './mission-vision.service';
 
-interface MisionVisionEventData {
-  nuevaMision: string;
-  nuevaVision: string;
-}
+
+
 
 interface Producto {
   nombre: string;
@@ -94,12 +92,13 @@ mostrarMas: MostrarMasState = {
   productoSeleccionado: Producto | null = null;
   cantidad: number = 1;
 
-  constructor(private http: HttpClient, private router: Router, private dialog: MatDialog, private sharedService: SharedService, public missionVisionService: MissionVisionService) { }
+  constructor(private http: HttpClient,private router: Router, private dialog: MatDialog, private sharedService: SharedService, public missionVisionService: MissionVisionService) { }
 
   
   ngOnInit(): void {
     this.mostrarMas.post1 = false;
     this.mostrarMas.post2 = false;
+
   }
 
 
@@ -131,48 +130,20 @@ mostrarMas: MostrarMasState = {
     this.productoSeleccionado = null;
   }
 
-  agregarAlCarrito(producto: Producto): void {
-    const itemExistente = this.carrito.find(item => item.producto.nombre === producto.nombre);
-    if (itemExistente) {
-      itemExistente.cantidad += this.cantidad;
-      itemExistente.subtotal = itemExistente.cantidad * producto.precio;
+  agregarAlCarrito(producto: any) {
+    const item = this.carrito.find(i => i.producto.nombre === producto.nombre);
+    if (item) {
+      item.cantidad += this.cantidad;
+      item.subtotal += producto.precio * this.cantidad;
     } else {
       this.carrito.push({
-        producto: producto,
+        producto,
         cantidad: this.cantidad,
-        subtotal: this.cantidad * producto.precio
+        subtotal: producto.precio * this.cantidad
       });
     }
-    this.cantidad = 1;
+    this.cantidad = 1; // Reiniciar cantidad
   }
-
-  realizarCompra(): void {
-    const datosCompra = {
-      carrito: this.carrito,
-      productos: this.carrito.map(item => item.producto)
-    };
-  
-    const datosCompraJSON = JSON.stringify(datosCompra);
-  
-    this.http.post<any>('http://localhost:3000/compra', datosCompraJSON)
-      .subscribe(
-        (response) => {
-          console.log('Compra realizada con éxito:', response);
-          alert('¡Compra realizada con éxito!');
-          this.carrito = []; // Limpia el carrito después de la compra
-        },
-        (error) => {
-          console.error('Error al realizar la compra:', error);
-          alert('Hubo un error al procesar la compra. Inténtalo de nuevo más tarde.');
-        }
-      );
-  }
-
-
-  
-
-  // Nueva función para realizar la compra
-  
   eliminarDelCarrito(item: CarritoItem): void {
     const index = this.carrito.indexOf(item);
     if (index !== -1) {
@@ -196,5 +167,36 @@ mostrarMas: MostrarMasState = {
 
   isAdminLoggedIn() {
     return this.sharedService.isAdminLoggedIn;
+  }
+
+  enviarCarritoAlBackend(): void {
+    // Obtener la cantidad de productos en el carrito
+    const cantidadProductos = this.carrito.length;
+  
+    // Verificar si hay productos en el carrito
+    if (cantidadProductos > 0) {
+      // Obtener solo los datos necesarios para enviar al backend
+      const productosParaEnviar = this.carrito.map(item => ({
+        nombre: item.producto.nombre,
+        descripcion: item.producto.descripcion, // Asegúrate de incluir la descripción
+        precio: item.producto.precio, // Asegúrate de incluir el precio
+        cantidad: item.cantidad,
+        subtotal: item.subtotal
+      }));
+      // Enviar datos al backend
+      this.http.post<any>('http://localhost:3000/api/guardar-productos', productosParaEnviar)
+        .subscribe(
+          response => {
+            console.log('Datos enviados al backend:', response);
+            // Aquí puedes manejar la respuesta del backend si es necesario
+          },
+          error => {
+            console.error('Error al enviar datos al backend:', error);
+            // Aquí puedes manejar el error si la solicitud falla
+          }
+        );
+    } else {
+      console.warn('No hay productos en el carrito para enviar al backend');
+    }
   }
 }
