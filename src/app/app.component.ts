@@ -189,10 +189,12 @@ mostrarMas: MostrarMasState = {
           response => {
             console.log('Datos enviados al backend:', response);
             // Aquí puedes manejar la respuesta del backend si es necesario
+            alert('Compra realizada correctamente')
           },
           error => {
             console.error('Error al enviar datos al backend:', error);
             // Aquí puedes manejar el error si la solicitud falla
+            alert('Error al enviar datos al backend');
           }
         );
     } else {
