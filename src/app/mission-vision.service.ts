@@ -1,15 +1,19 @@
-// mission-vision.service.ts
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MissionVisionService {
-  mision: string = 'Nuestra misión es proveer productos deportivos de la más alta calidad para apoyar el rendimiento y bienestar de nuestros clientes.';
-  vision: string = 'Nuestra visión es ser líderes en el mercado deportivo, reconocidos por la excelencia en nuestros productos y servicios.';
+  constructor(private http: HttpClient) { }
 
-  actualizarMisionYVision(nuevaMision: string, nuevaVision: string): void {
-    this.mision = nuevaMision;
-    this.vision = nuevaVision;
+  updateMissionVision(mision: string, vision: string): Observable<any> {
+    const payload = { mision, vision };
+    return this.http.post<any>('http://localhost:3000/api/update-mission-vision', payload);
+  }
+
+  getMissionVision(): Observable<any> {
+    return this.http.get<any>('http://localhost:3000/api/get-mission-vision');
   }
 }

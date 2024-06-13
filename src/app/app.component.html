@@ -90,14 +90,21 @@
     <h2>Misión y Visión</h2>
     <div id="myv">
       <h3>Misión</h3>
-      <p>{{ missionVisionService.mision }}</p>
+      <p *ngIf="!isEditing">{{ mision }}</p>
+      <input *ngIf="isEditing" [(ngModel)]="mision" placeholder="Editar misión" />
+  
       <h3>Visión</h3>
-      <p>{{ missionVisionService.vision }}</p>
+      <p *ngIf="!isEditing">{{ vision }}</p>
+      <input *ngIf="isEditing" [(ngModel)]="vision" placeholder="Editar visión" />
+  
+      <button *ngIf="isAdminLoggedIn()" (click)="toggleEditing()">
+        {{ isEditing ? 'Guardar' : 'Editar' }}
+      </button>
     </div>
   </section>
-
-
-
+  
+  
+  
   <section id="about">
     <div class="container">
       <div class="card-group mt-4">

@@ -11,14 +11,21 @@ const productoSchema = new mongoose.Schema({
     descripcion: { type: String, required: true },
     precio: { type: Number, required: true },
   });
+  const missionVisionSchema = new mongoose.Schema({
+    mision: { type: String, required: true },
+    vision: { type: String, required: true }
+  });
+
   const Producto = mongoose.model('Producto', productoSchema);
+  const MissionVision = mongoose.model('MissionVision', missionVisionSchema);
+
   module.exports = Producto;
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/api', cartRoutes);
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/tu_base_de_datos', {
+mongoose.connect('mongodb://localhost:27017/Tienda_Elviejo', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -45,6 +52,25 @@ app.post('/api/guardar-productos', async (req, res) => {
     }
 });
 
+
+app.post('/api/update-mission-vision', (req, res) => {
+    const { mision, vision } = req.body;
+    MissionVision.findOneAndUpdate({}, { mision, vision }, { upsert: true, new: true })
+        .then(doc => res.status(200).json(doc))
+        .catch(err => {
+            console.error('Error al actualizar misión y visión:', err);
+            res.status(500).json({ error: 'Error al actualizar misión y visión' });
+        });
+});
+app.get('/api/get-mission-vision', (req, res) => {
+    MissionVision.findOne()
+        .then(doc => res.status(200).json(doc))
+        .catch(err => {
+            console.error('Error al obtener misión y visión:', err);
+            res.status(500).json({ error: 'Error al obtener misión y visión' });
+        });
+});
+  
 // Start server
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);

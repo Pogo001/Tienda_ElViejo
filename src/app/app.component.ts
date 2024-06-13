@@ -75,6 +75,7 @@ mostrarMas: MostrarMasState = {
   mision: string | null = null;
   vision: string | null = null;
   currentUser: any = null;
+  isEditing: boolean = false;
 
   productos: Producto[] = [
     { nombre: 'Zapatillas Deportivas', descripcion: 'Zapatos comodos para hacer deporte. Se encuentran disponibles actualmente', precio: 60000.00, },
@@ -92,12 +93,13 @@ mostrarMas: MostrarMasState = {
   productoSeleccionado: Producto | null = null;
   cantidad: number = 1;
 
-  constructor(private http: HttpClient,private router: Router, private dialog: MatDialog, private sharedService: SharedService, public missionVisionService: MissionVisionService) { }
+  constructor(private http: HttpClient,private router: Router, private dialog: MatDialog, private sharedService: SharedService,public missionVisionService: MissionVisionService) { }
 
   
   ngOnInit(): void {
     this.mostrarMas.post1 = false;
     this.mostrarMas.post2 = false;
+    this.loadMissionVision();
 
   }
 
@@ -168,6 +170,34 @@ mostrarMas: MostrarMasState = {
   isAdminLoggedIn() {
     return this.sharedService.isAdminLoggedIn;
   }
+
+  loadMissionVision(): void {
+    this.missionVisionService.getMissionVision().subscribe(data => {
+      this.mision = data.mision;
+      this.vision = data.vision;
+    });
+  }
+
+  
+  toggleEditing(): void {
+    if (this.isEditing) {
+      const updatedMission = this.mision ?? '';
+      const updatedVision = this.vision ?? '';
+
+      this.missionVisionService.updateMissionVision(updatedMission, updatedVision).subscribe(
+        response => {
+          console.log('Misión y visión actualizadas:', response);
+          this.loadMissionVision(); // Volver a cargar misión y visión después de actualizar
+        },
+        error => {
+          console.error('Error al actualizar misión y visión:', error);
+        }
+      );
+    }
+    this.isEditing = !this.isEditing;
+  }
+
+  
 
   enviarCarritoAlBackend(): void {
     // Obtener la cantidad de productos en el carrito

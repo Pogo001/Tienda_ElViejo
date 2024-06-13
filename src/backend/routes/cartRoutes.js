@@ -17,7 +17,8 @@ router.post('/cart', async (req, res) => {
     const item = new CartItem({
         nombre: req.body.nombre,
         precio: req.body.precio,
-        cantidad: req.body.cantidad
+        cantidad: req.body.cantidad,
+        subtotal: req.body.subtotal,
     });
 
     try {
