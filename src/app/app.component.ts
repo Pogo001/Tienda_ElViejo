@@ -78,14 +78,14 @@ mostrarMas: MostrarMasState = {
   isEditing: boolean = false;
 
   productos: Producto[] = [
-    { nombre: 'Zapatillas Deportivas', descripcion: 'Zapatos comodos para hacer deporte. Se encuentran disponibles actualmente', precio: 60000.00, },
+    { nombre: 'Zapatillas Deportivas', descripcion: 'Zapatos comodos para hacer deporte. Ideales para salir a correr y combinar con un oufit sencillo', precio: 60000.00, },
     { nombre: 'Camisetas de Entrenamiento', descripcion: 'Camisetas deportivas para hacer gimnasio y todo tipo de deportes', precio: 25000.00, },
     { nombre: 'Pantalones Cortos', descripcion: 'Pantalonetas deportivas neutras para combinar con cualquier prenda de vestir. Ideal para todo tipo de deportes', precio: 40000.00,  },
     { nombre: 'Camisillas Deportivas', descripcion: 'Camisilla especial para deportes de contacto y rutinas de gimnasio', precio: 40000.00,  },
-    { nombre: 'Balon de Futbol', descripcion: 'Esfera numero 5 ideal para compromisos futbolisticos', precio: 30000.00,  },
-    { nombre: 'Balon de Basquetball', descripcion: 'Balon wilson firmado por don stephen curry', precio: 40000.00, },
+    { nombre: 'Balon de Futbol', descripcion: 'Esfera numero 5 ideal para compromisos futbolisticos, el coje del barrio donde la magia se desborda por montones', precio: 30000.00,  },
+    { nombre: 'Balon de Basquetball', descripcion: 'Balon wilson firmado por don stephen curry en 2016', precio: 10000000.00, },
     { nombre: 'Guantes de Boxeo', descripcion: 'Guantes para practicar el deporte de Myke Tayson y Canelo Alvarez', precio: 50000.00,  },
-    { nombre: 'Saco de Boxeo', descripcion: 'Saco de boxeo para pegar la foto del real madrid y golpearlo hasta que se dañe', precio: 140000.00, },
+    { nombre: 'Saco de Boxeo', descripcion: 'Saco de boxeo para con un partado donde se le puede poner una imagen deseada en caso de querer desquitarse.', precio: 140000.00, },
     { nombre: 'Vendas de Tela', descripcion: 'Vendas generales para usar en el boxeo, o en caso tal en el futbol, sin sarpullido y facil de lavar', precio: 40000.00, }
   ];
 
@@ -208,18 +208,21 @@ mostrarMas: MostrarMasState = {
       // Obtener solo los datos necesarios para enviar al backend
       const productosParaEnviar = this.carrito.map(item => ({
         nombre: item.producto.nombre,
-        descripcion: item.producto.descripcion, // Asegúrate de incluir la descripción
-        precio: item.producto.precio, // Asegúrate de incluir el precio
+        descripcion: item.producto.descripcion,
+        precio: item.producto.precio,
         cantidad: item.cantidad,
         subtotal: item.subtotal
       }));
+  
+      const carritoData = { productos: productosParaEnviar };
+  
       // Enviar datos al backend
-      this.http.post<any>('http://localhost:3000/api/guardar-productos', productosParaEnviar)
+      this.http.post<any>('http://localhost:3000/api/guardar-productos', carritoData)
         .subscribe(
           response => {
             console.log('Datos enviados al backend:', response);
             // Aquí puedes manejar la respuesta del backend si es necesario
-            alert('Compra realizada correctamente')
+            alert('Compra realizada correctamente');
           },
           error => {
             console.error('Error al enviar datos al backend:', error);
@@ -231,4 +234,5 @@ mostrarMas: MostrarMasState = {
       console.warn('No hay productos en el carrito para enviar al backend');
     }
   }
+  
 }

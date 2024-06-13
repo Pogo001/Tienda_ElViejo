@@ -10,6 +10,8 @@ const productoSchema = new mongoose.Schema({
     nombre: { type: String, required: true },
     descripcion: { type: String, required: true },
     precio: { type: Number, required: true },
+    subtotal: {type: Number, required: true},
+    cantidad: {type: Number, required: true},
   });
   const missionVisionSchema = new mongoose.Schema({
     mision: { type: String, required: true },
@@ -41,16 +43,19 @@ app.get('/', (req, res) => {
 
 app.post('/api/guardar-productos', async (req, res) => {
     try {
-        // Recibir los productos desde el cuerpo de la solicitud
-        const productos = req.body;
-        // Guardar los productos en la base de datos
-        await Producto.insertMany(productos);
-        res.status(200).json({ message: 'Productos guardados correctamente' });
+      // Recibir los productos desde el cuerpo de la solicitud
+      const { productos } = req.body;
+  
+      // Guardar los productos en la base de datos
+      await Producto.insertMany(productos);
+  
+      res.status(200).json({ message: 'Productos guardados correctamente' });
     } catch (error) {
-        console.error('Error al guardar los productos:', error);
-        res.status(500).json({ error: 'Error al guardar los productos' });
+      console.error('Error al guardar los productos:', error);
+      res.status(500).json({ error: 'Error al guardar los productos' });
     }
-});
+  });
+  
 
 
 app.post('/api/update-mission-vision', (req, res) => {
